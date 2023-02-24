@@ -60,7 +60,7 @@ public:
         return sizes;
     }
 
-    int setRepetitions() {
+    void setRepetitions() {
         std::cout << "Please enter the amount of times you wish to overwrite the file" << std::endl;
         std::cin >> Repetitions;
     }
