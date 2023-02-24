@@ -61,29 +61,6 @@ public:
         return sizes;
     }
 
-    /* 
-    Maybe make a function which returns size to user?
-     if (filesize < 1024) {
-                    //std::cout << "The size of: [" << filenames[i] << "] is: " << filesize << " kB\n";
-                    return filesize;
-                }
-                else if (filesize >= 1024) {
-                    double filesizeKB = (filesize / 1024);
-                    //std::cout << "The size of: [" << filenames[i] << "] is: " << filesizeKB  << " kB\n";
-                    return filesizeKB;
-                }
-                else if (filesize >= 1048576) {
-                    double filesizeMB = (filesize / (1024^2) );
-                    //std::cout << "The size of: [" << filenames[i] << "] is: " << filesizeMB  << " MB\n";
-                    return filesizeMB;
-                }
-                else if (filesize >= 1073741824) {
-                    double filesizeGB = (filesize / (1024 ^ 3));
-                    //std::cout << "The size of: [" << filenames[i] << "] is: " << filesizeGB  << " GB\n";
-                    return filesizeGB;
-                }
-
-    */
     int RewriteFileSectors(std::vector<std::string> filenames, int repetitions) {
         std::vector<int> filesizes = getFileSize(filenames);
         for (int i = 0; i < filenames.size(); i++)
@@ -97,7 +74,7 @@ public:
             }
             else {
                 for (int j = 0; j < repetitions; j++) {
-                    outToFile.write(reinterpret_cast<char*>(&BinaryZero), filesizes[i]); // This is broken. does not write the same amount of bytes!!
+                    outToFile.write(reinterpret_cast<char*>(&BinaryZero), filesizes[i]);
                     std::cout << "The file " << filenames[i] << " has been destroyed" << std::endl;
                 }
                 outToFile.close();
@@ -121,10 +98,3 @@ int main()
 
     filescrub.RewriteFileSectors(filenames, 2);
 }
-
-// to do
-// 1. Add another class which handles the Filescrubber - It should ask the following
-    // a. Filenames
-    // b. How many repetitions
-    // c. 1's or 0's or both
-    // d. Whether to delete the file afterwards. (some people may want to review the file before manually deleting)
