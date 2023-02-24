@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <filesystem>
-#include <cmath>
 
 class FileScrubber {
 protected:
@@ -11,7 +10,7 @@ protected:
     std::vector<std::string> Filenames;
     double FileSize;
     std::string FileMemoryLocation;
-
+    int Repetitions;
 public:
     void setFilename() {
         std::cout << "Please enter a filepath" << std::endl;
@@ -51,7 +50,7 @@ public:
             try {
                 int filesize = std::filesystem::file_size(filenames[i]);
                 sizes.push_back(filesize);
-               
+
             }
             catch (const std::filesystem::filesystem_error& ex) {
                 std::cerr << "Error: " << ex.what() << std::endl;
@@ -59,6 +58,15 @@ public:
             }
         }
         return sizes;
+    }
+
+    int setRepetitions() {
+        std::cout << "Please enter the amount of times you wish to overwrite the file" << std::endl;
+        std::cin >> Repetitions;
+    }
+
+    int getRepetitions() {
+        return Repetitions;
     }
 
     int RewriteFileSectors(std::vector<std::string> filenames, int repetitions) {
@@ -85,7 +93,7 @@ public:
         return 0;
     }
 
-    
+
 };
 
 int main()
@@ -95,6 +103,7 @@ int main()
 
     std::vector<std::string>    filenames = filescrub.getFilenames();
     std::vector<int>            filesizes = filescrub.getFileSize(filenames);
+    int                         repetitions = filescrub.setRepetitions();
 
-    filescrub.RewriteFileSectors(filenames, 2);
+    filescrub.RewriteFileSectors(filenames, repetitions);
 }
